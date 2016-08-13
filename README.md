@@ -1,7 +1,7 @@
-﻿# lmf 8位继电器版,1wire测温
+﻿# lmf 8位继电器版,串口测温，2路测温
 更新clone下来的代码 git pull，视频要手动
 
-# lmf
+# lmf4
 要装的程序
 
 $ sudo apt-get update
@@ -38,7 +38,7 @@ address 192.168.1.105
 netmask 255.255.255.0
 gateway 192.168.1.1
 
-
+# 备用
 HDMI输出声音
 $ sudo leafpad /boot/config.txt 里面设置HDMI_DRIVER=2,参数是：-o hdmi
 
