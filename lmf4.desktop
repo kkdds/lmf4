@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=lmf4
+Comment=yP V4
+Exec=python3 /home/pi/lmf4/lmf7.py
+Icon=/home/pi/lmf4/yuanpeng-home.jpg
+Terminal=false
+MultipleArgs=false
+Type=Application
+Categories=Application;Development;
+StartupNotify=true
