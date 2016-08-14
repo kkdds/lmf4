@@ -310,7 +310,7 @@ def setting(request):
             tbody= '{"p":"add"}'
 
     if po['m'] == 'get_added_cai':
-        tbody= ''
+        tbody= '~'
         for i in seled_cai:
             tbody = tbody+i+';'
         tbody= str(tbody)
