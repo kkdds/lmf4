@@ -164,6 +164,7 @@ def return_sta(request):
                 GPIO.output(io_jr, 1)
                 GPIO.output(io_bw, 1)
                 GPIO.output(io_sk, 1)
+                GPIO.output(io_ss, 1)
                 eTimer1=False
                 huixiqi=20
                 GPIO.output(io_hx, 0)
