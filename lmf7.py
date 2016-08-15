@@ -149,8 +149,8 @@ def return_sta(request):
                 tbody= '{"a":"bw","b":"on"}'
             elif po['d']== 'sk':
                 GPIO.output(io_sk, 0)
-                GPIO.output(io_jr, 0)
-                tbody= '{"a":"sk+jr","b":"on"}'
+                GPIO.output(io_hx, 0)
+                tbody= '{"a":"sk+hx","b":"on"}'
             elif po['d']== 'ss':
                 GPIO.output(io_ss, 0)
                 tbody= '{"a":"ss","b":"on"}'
@@ -166,7 +166,7 @@ def return_sta(request):
                 GPIO.output(io_sk, 1)
                 GPIO.output(io_ss, 1)
                 eTimer1=False
-                huixiqi=20
+                huixiqi=60
                 GPIO.output(io_hx, 0)
                 print('huixi on alloff')
                 tbody= '{"a":"all","b":"off"}'
