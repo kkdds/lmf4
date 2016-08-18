@@ -382,7 +382,7 @@ def loop_info():
                 eTimer1=False
                 sta_shell=2
                 sta_onoff=0
-                huixiqi=120
+                huixiqi=400
                 GPIO.output(io_hx, 0)
                 print('huixiqi on')
                 
