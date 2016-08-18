@@ -31,8 +31,8 @@ seled_cai=[]
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 io_sk=7 #烧烤
-io_jr=8 #加热管
-io_zq=25 #蒸汽
+io_zq=8 #蒸汽
+io_jr=25 #加热管
 io_bw=24 #保温
 io_hx=23 #回吸
 io_ss=18 #上水
