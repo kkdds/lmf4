@@ -172,7 +172,7 @@ def return_sta(request):
                 print('huixi on alloff')
                 tbody= '{"a":"all","b":"off"}'
             elif po['d']== 'zq':
-                GPIO.output(io_bw, 1)
+                GPIO.output(io_zq, 1)
                 tbody= '{"a":"zq","b":"off"}'
             elif po['d']== 'bw':
                 GPIO.output(io_bw, 1)
