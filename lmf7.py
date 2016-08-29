@@ -137,6 +137,7 @@ def return_sta(request):
             print('eTimer1 start')
             #sta_shell=1
             sta_onoff=1
+            huixiqi=-1
             if po['d']== 'fm':
                 GPIO.output(io_zq, 0)
                 GPIO.output(io_jr, 0)
