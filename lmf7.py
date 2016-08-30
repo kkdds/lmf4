@@ -1,6 +1,6 @@
 #! /usr/bin/python3.4
 # -*- coding: utf-8 -*-
-
+import requests
 import asyncio, os, json, time
 import aiohttp_jinja2
 import jinja2
@@ -322,6 +322,9 @@ def setting(request):
         #print(tbody)
         
     if po['m'] == 'up':
+        f = requests.get('https://raw.githubusercontent.com/kkdds/lmf4/master/lmf7.py') 
+        with open("/home/pi/lmf4/lmf7.py.py", "wb") as code:
+            code.write(f.content) 
         tbody= '{"p":"ok","up":"ok"}'
 
     return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
