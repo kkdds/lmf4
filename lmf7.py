@@ -323,7 +323,7 @@ def setting(request):
         
     if po['m'] == 'up':
         f = requests.get('https://raw.githubusercontent.com/kkdds/lmf4/master/lmf7.py') 
-        with open("/home/pi/lmf4/lmf7.py.py", "wb") as code:
+        with open("/home/pi/lmf4/lmf7.py", "wb") as code:
             code.write(f.content) 
         tbody= '{"p":"ok","up":"ok"}'
 
