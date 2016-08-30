@@ -320,8 +320,10 @@ def setting(request):
             tbody = tbody+i+';'
         tbody= str(tbody)
         #print(tbody)
-        #return tbody
         
+    if po['m'] == 'up':
+        tbody= '{"p":"ok","up":"ok"}'
+
     return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
 
