@@ -276,6 +276,7 @@ def setting(request):
 
     if po['m'] == 'get' and po['p'] == setpwd:
         tbody = '{"p":"ok",'
+        tbody+= '"ver":"'+ver+'",'
         tbody+= '"t1":"'+str(shell_ud_t1_set)+'",'
         tbody+= '"t2u":"'+str(shell_ud_t2u_set)+'",'
         tbody+= '"t2d":"'+str(shell_ud_t2d_set)+'",'
