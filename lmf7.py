@@ -324,10 +324,15 @@ def setting(request):
         #print(tbody)
         
     if po['m'] == 'up':
-        f = requests.get('https://raw.githubusercontent.com/kkdds/lmf4/master/lmf7.py') 
-        with open("/home/pi/lmf4/lmf7.py", "wb") as code:
-            code.write(f.content) 
-        tbody= '{"p":"ok","ver":"'+ver+'"}'
+        try:
+            f = requests.get('https://raw.githubusercontent.coms/kkdds/lmf4/master/lmf7.py', timeout=1) 
+            with open("/home/pi/lmf4/lmf7.py", "wb") as code:
+                code.write(f.content) 
+            tbody= '{"p":"ok","ver":"'+ver+'"}'
+        except requests.Timeout:
+            tbody= '{"p":"er","ver":"0"}'
+            print('times out')
+            return
 
     return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
