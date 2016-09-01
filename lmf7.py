@@ -12,6 +12,7 @@ import configparser
 import threading
 ttim=0
 
+ver='20160901'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -263,7 +264,7 @@ def ttfin():
 @asyncio.coroutine
 def setting(request):
     global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
-    global shell_sdu,shell_sdd
+    global shell_sdu,shell_sdd,ver
     global stapwd,setpwd,softPath,seled_cai
     hhdd=[('Access-Control-Allow-Origin','*')]
     tbody= '{"p":"error"}'
@@ -325,7 +326,7 @@ def setting(request):
         f = requests.get('https://raw.githubusercontent.com/kkdds/lmf4/master/lmf7.py') 
         with open("/home/pi/lmf4/lmf7.py", "wb") as code:
             code.write(f.content) 
-        tbody= '{"p":"ok","up":"ok"}'
+        tbody= '{"p":"ok","ver":"'+ver+'"}'
 
     return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
@@ -401,7 +402,7 @@ def loop_info():
 
 @asyncio.coroutine
 def init(loop):    
-    global softPath
+    global softPath,ver
     app = web.Application(loop=loop)    
     #使用aiohttp_jinja2
     aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'templates'))
@@ -409,7 +410,7 @@ def init(loop):
     app.router.add_route('POST', '/sta', return_sta)
     app.router.add_route('POST', '/setting', setting)
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
-    print(' v4 08312327 started at http://0.0.0.0:9001...')
+    print(' v4 started at http://9001... '+ver)
     return srv
 
 loop = asyncio.get_event_loop()
