@@ -152,6 +152,7 @@ def return_sta(request):
             elif po['d']== 'sk':
                 GPIO.output(io_sk, 0)
                 GPIO.output(io_hx, 0)
+                huixiqi=-1
                 tbody= '{"a":"sk+hx","b":"on"}'
             elif po['d']== 'ss':
                 GPIO.output(io_ss, 0)
