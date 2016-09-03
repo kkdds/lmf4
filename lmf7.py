@@ -242,9 +242,9 @@ def tt3():
     global t,shell_ud_t3_set,shell_up_down
     t = threading.Timer(shell_ud_t3_set/1000, ttfin)
     if shell_up_down==0:
-        p.ChangeDutyCycle(50)
+        p.ChangeDutyCycle(20)
     else:
-        p.ChangeDutyCycle(25)
+        p.ChangeDutyCycle(20)
     t.start()
     #print('tt3 '+str(ttim-time.time()))
 
