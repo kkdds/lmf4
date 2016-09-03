@@ -357,7 +357,7 @@ def get_temp():
             #print(tempeture_1)
             #print((recv[5]*255+recv[6])/10)
         else:
-            print('no data')
+            print('no data:'+recv)
 
         ser.close()
         yield from asyncio.sleep(0.8)    
