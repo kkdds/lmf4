@@ -6,7 +6,7 @@
 
 $ sudo apt-get update
 $ sudo apt-get install ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpio
-$ sudo pip3 install pexpect aiohttp aiohttp_jinja2
+$ sudo pip3 install pexpect aiohttp==0.22.5 aiohttp_jinja2
 
 禁用屏保和休眠
 $ sudo leafpad /etc/lightdm/lightdm.conf 行xserver-command=X -s o -dpms
