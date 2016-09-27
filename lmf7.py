@@ -367,7 +367,7 @@ def get_temp():
             #print(recv)
             tempeture_2=0
 
-        if tempeture_1==0 or tempeture_2==0:
+        if (tempeture_1 + tempeture_2)==0:
             ser.write(b'\x01\x03\x00\x00\x00\x04\x44\x09')
             recv = ser.read(7)
             #print(recv)
@@ -379,8 +379,8 @@ def get_temp():
                 tempeture_1=0
                 tempeture_1=0
 
-        print(tempeture_1)            
-        print(tempeture_2)
+        #print(tempeture_1)            
+        #print(tempeture_2)
         ser.close()
         yield from asyncio.sleep(0.8)    
 
