@@ -12,7 +12,7 @@ import configparser
 import threading
 ttim=0
 
-ver='20160901'
+ver='20160927'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -347,18 +347,40 @@ def get_temp():
     while True:
         # 打开串口  
         ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
-        ser.write(b'\x01\x03\x00\x00\x00\x04\x44\x09')
         # 获得接收缓冲区字符  
+        ser.write(b'\x02\x03\x10\x00\x00\x04\x40\xFA')
         recv = ser.read(7)
         #print(recv)
         if recv and recv[2]==8:
             tempeture_1=(recv[3]*255+recv[4])/10
-            tempeture_2=(recv[5]*255+recv[6])/10
-            #print(tempeture_1)
-            #print((recv[5]*255+recv[6])/10)
         else:
-            print(recv)
+            #print(recv)
+            tempeture_1=0
+            
+        ser.write(b'\x02\x03\x10\x00\x00\x04\x40\xFA')
+        ser.write(b'\x02\x03\x10\x00\x00\x04\x41\x2B')
+        recv = ser.read(7)
+        #print(recv)
+        if recv and recv[2]==8:
+            tempeture_2=(recv[5]*255+recv[6])/10
+        else:
+            #print(recv)
+            tempeture_2=0
 
+        if tempeture_1==0 or tempeture_2==0:
+            ser.write(b'\x01\x03\x00\x00\x00\x04\x44\x09')
+            recv = ser.read(7)
+            #print(recv)
+            if recv and recv[2]==8:
+                tempeture_1=(recv[3]*255+recv[4])/10
+                tempeture_2=(recv[5]*255+recv[6])/10
+                #print(tempeture_1)
+            else:
+                tempeture_1=0
+                tempeture_1=0
+
+        print(tempeture_1)            
+        print(tempeture_2)
         ser.close()
         yield from asyncio.sleep(0.8)    
 
