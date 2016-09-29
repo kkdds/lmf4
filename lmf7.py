@@ -365,7 +365,7 @@ def get_temp():
         recv = ser.read(7)
         #print(recv)
         if recv and recv[2]==8:
-            tempeture_2=(recv[5]*255+recv[6])/10
+            tempeture_2=(recv[3]*255+recv[4])/10
         else:
             #print(recv)
             tempeture_2=0
