@@ -356,9 +356,12 @@ def get_temp():
         else:
             #print(recv)
             tempeture_1=0
-            
-        ser.write(b'\x02\x03\x10\x00\x00\x04\x40\xFA')
-        ser.write(b'\x02\x03\x10\x00\x00\x04\x41\x2B')
+
+        ser.close()
+        yield from asyncio.sleep(0.5)
+
+        ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
+        ser.write(b'\x03\x03\x10\x00\x00\x04\x41\x2B')
         recv = ser.read(7)
         #print(recv)
         if recv and recv[2]==8:
@@ -379,10 +382,10 @@ def get_temp():
                 tempeture_1=0
                 tempeture_1=0
 
-        #print(tempeture_1)            
+        #print(tempeture_1)
         #print(tempeture_2)
         ser.close()
-        yield from asyncio.sleep(0.8)    
+        yield from asyncio.sleep(0.8)
 
 
 @asyncio.coroutine
