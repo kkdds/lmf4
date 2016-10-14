@@ -45,7 +45,7 @@ class OMXPlayer(object):
     def stop(self):
         self._process.send(self._QUIT_CMD)
         self._process.terminate(force=True)
-        self._process = pexpect.spawn('feh -F '+self._IMG_FILE)
+        #self._process = pexpect.spawn('feh -F '+self._IMG_FILE)
 			
     def toggle_pause(self):
         if self._process.send(self._PAUSE_CMD):

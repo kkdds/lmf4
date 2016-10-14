@@ -456,16 +456,16 @@ def loop_info():
 @asyncio.coroutine
 def init(loop):    
     global softPath,ver
-    app = web.Application(loop=loop)    
+    app = web.Application(loop=loop)
     #使用aiohttp_jinja2
-    aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'templates'))    
+    aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'templates'))
     app.router.add_route('POST', '/sta', return_sta)
     app.router.add_route('POST', '/setting', setting)
     app.router.add_route('*', '/video', video)
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
     print(' v4 started at http://9001... '+ver)
     Chromium('/home/pi/lmf4/tpl/hdmi.html')
-    time.sleep(5)
+    time.sleep(8)
     OMXPlayer('/home/pi/lmf4/vdo/open.mp4')
     return srv
 
