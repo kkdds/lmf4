@@ -29,9 +29,9 @@ function h_getSta(){
 		tempture2=rj.tmp2+30;
 		$("#tmp2").text(tempture2.toFixed(1));		
 		if(rj.running_sta==1){
-			$('#running_sta').css('color','green');
+			$('.running_sta').css('color','green');
 		}else{
-			$('#running_sta').css('color','white');
+			$('.running_sta').css('color','white');
 		}
 		h_ws=setInterval("h_getSta()", 1200);
 	}).error(function(){ 
@@ -60,8 +60,8 @@ background-size:auto auto">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr><td>
     <div class="mantime">
-      <div><span id="running_sta">〓</span></div>
-      <div style="font-size:18px;opacity:1;">运行状态</div>
+      <div><span class="running_sta">〓</span></div>
+      <div class="running_sta" style="font-size:18px;opacity:1;">运行状态</div>
     </div>
     </td>
     <!--<td>
