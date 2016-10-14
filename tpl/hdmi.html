@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>原烹</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="com.css"/>
+<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+var h_ws = null;
+$(document).ready(function(){
+	h_ws=setInterval("h_getSta()", 1200);
+	
+});
+function h_disconnect(){
+  if(h_ws!= null){
+	clearInterval(h_ws);
+	//log('Disconnected');
+	h_ws = null;
+  }
+}
+function h_getSta(){
+	clearInterval(h_ws);
+	$.post('http://192.168.1.105:9001/sta',{p:'abc',m:'sta',d:453},function(r){
+		var rj=JSON.parse(r);
+		shell_sta=rj.shell_sta;
+		running_sta=rj.running_sta;
+		tempture1=rj.tmp1+0;
+		$("#tmp1").text(tempture1.toFixed(1));
+		tempture2=rj.tmp2+30;
+		$("#tmp2").text(tempture2.toFixed(1));
+		h_ws=setInterval("h_getSta()", 1200);
+	}).error(function(){ 
+		h_disconnect();
+	});
+}
+function sec2minsec(ti){
+  intDiff=parseInt(ti);
+  minute = Math.floor(intDiff / 60) ;
+  second = Math.floor(intDiff) - (minute * 60);
+  if (minute <= 9) minute = '0' + minute;
+  if (second <= 9) second = '0' + second;
+  $('#minute_show').html('<s></s>'+minute);
+  $('#second_show').html('<s></s>'+second);
+}
+</script>
+</head>
+<body style="background-color:#000000;
+background-image:url('../yuanpeng-home.jpg');
+background-repeat:no-repeat;
+background-attachment:fixed;
+background-position:center center;
+background-size:auto auto">
+
+<div class="btm_div" style="background-color:#aaaaaa">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr><td>
+    <div class="mantime">
+      <div><span id="running_sta">〓</span></div>
+      <div style="font-size:18px;opacity:1;">运行状态</div>
+    </div>
+    </td>
+    <!--<td>
+    <div class="mantime">
+      <div style="font-size:18px;">min&nbsp;&nbsp;&nbsp;&nbsp;sec</div>
+      <span id="minute_show">00</span>:<span id="second_show">00</span>
+    </div>
+    </td>-->
+    <td>
+    <div class="mantime">
+      <div><span id="tmp1">v4</span> ℃</div>
+      <div style="font-size:18px;opacity:1;">烤盘温度</div>
+    </div>
+    </td>
+    <td>
+    <div class="mantime">
+      <div><span id="tmp2">v4</span> ℃</div>
+      <div style="font-size:18px;opacity:1;">蒸汽温度</div>
+    </div>
+    </td>
+  </tr>
+</table>
+</div>
+</body>
+</html>

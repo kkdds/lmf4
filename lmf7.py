@@ -11,8 +11,10 @@ from urllib.parse import unquote
 import configparser
 import threading
 ttim=0
+from chromium import Chromium
+from pyomxplayer import OMXPlayer
 
-ver='20160927'
+ver='20161014'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -99,6 +101,29 @@ running_sta
 1 running
 '''
 
+omx=object
+@asyncio.coroutine
+def video(request):
+    global omx
+    global stapwd,setpwd,softPath
+
+    po = yield from request.post()
+    if 1:#po['p'] == stapwd:
+        if po['m'] == 'play':
+            #print('video play...')
+            omx = OMXPlayer(softPath+'vdo/'+po['d']+'.mp4')
+            tbody= '{"a":"video","b":"play"}'
+        elif po['m'] == 'stop':
+            omx.stop()
+            tbody= '{"a":"video","b":"stop"}'
+        elif po['m'] == 'pause':
+            omx.toggle_pause()
+            tbody= '{"a":"video","b":"pause"}'
+    else:
+        tbody= '{"p":"error"}'
+        
+    print(tbody)
+    return web.Response(headers='' ,body=tbody.encode('utf-8'))
 
 @asyncio.coroutine
 def return_sta(request):
@@ -356,16 +381,13 @@ def get_temp():
         else:
             #print(recv)
             tempeture_1=0
-
-        ser.close()
-        yield from asyncio.sleep(0.5)
-
-        ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
-        ser.write(b'\x03\x03\x10\x00\x00\x04\x41\x2B')
+            
+        ser.write(b'\x02\x03\x10\x00\x00\x04\x40\xFA')
+        ser.write(b'\x02\x03\x10\x00\x00\x04\x41\x2B')
         recv = ser.read(7)
         #print(recv)
         if recv and recv[2]==8:
-            tempeture_2=(recv[3]*255+recv[4])/10
+            tempeture_2=(recv[5]*255+recv[6])/10
         else:
             #print(recv)
             tempeture_2=0
@@ -382,10 +404,10 @@ def get_temp():
                 tempeture_1=0
                 tempeture_1=0
 
-        #print(tempeture_1)
+        #print(tempeture_1)            
         #print(tempeture_2)
         ser.close()
-        yield from asyncio.sleep(0.8)
+        yield from asyncio.sleep(0.8)    
 
 
 @asyncio.coroutine
@@ -436,12 +458,15 @@ def init(loop):
     global softPath,ver
     app = web.Application(loop=loop)    
     #使用aiohttp_jinja2
-    aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'templates'))
-    
+    aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'templates'))    
     app.router.add_route('POST', '/sta', return_sta)
     app.router.add_route('POST', '/setting', setting)
+    app.router.add_route('*', '/video', video)
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
     print(' v4 started at http://9001... '+ver)
+    Chromium('/home/pi/lmf4/tpl/hdmi.html')
+    time.sleep(5)
+    OMXPlayer('/home/pi/lmf4/vdo/open.mp4')
     return srv
 
 loop = asyncio.get_event_loop()
