@@ -27,20 +27,25 @@ function h_getSta(){
 		tempture1=rj.tmp1+0;
 		$("#tmp1").text(tempture1.toFixed(1));
 		tempture2=rj.tmp2+30;
-		$("#tmp2").text(tempture2.toFixed(1));
+		$("#tmp2").text(tempture2.toFixed(1));		
+		if(rj.running_sta==1){
+			$('#running_sta').css('color','green');
+		}else{
+			$('#running_sta').css('color','white');
+		}
 		h_ws=setInterval("h_getSta()", 1200);
 	}).error(function(){ 
 		h_disconnect();
 	});
 }
 function sec2minsec(ti){
-  intDiff=parseInt(ti);
-  minute = Math.floor(intDiff / 60) ;
-  second = Math.floor(intDiff) - (minute * 60);
-  if (minute <= 9) minute = '0' + minute;
-  if (second <= 9) second = '0' + second;
-  $('#minute_show').html('<s></s>'+minute);
-  $('#second_show').html('<s></s>'+second);
+	intDiff=parseInt(ti);
+	minute = Math.floor(intDiff / 60) ;
+	second = Math.floor(intDiff) - (minute * 60);
+	if (minute <= 9) minute = '0' + minute;
+	if (second <= 9) second = '0' + second;
+	$('#minute_show').html('<s></s>'+minute);
+	$('#second_show').html('<s></s>'+second);
 }
 </script>
 </head>
