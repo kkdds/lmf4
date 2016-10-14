@@ -4,15 +4,15 @@
 # lmf4
 要装的程序
 
-$ sudo apt-get update
-$ sudo apt-get install ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpio
-$ sudo pip3 install pexpect aiohttp==0.22.5 aiohttp_jinja2
+sudo apt-get update
+sudo apt-get install -y ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpio
+sudo pip3 install pexpect aiohttp==0.22.5 aiohttp_jinja2
 
 禁用屏保和休眠
-$ sudo leafpad /etc/lightdm/lightdm.conf 行xserver-command=X -s o -dpms
+sudo leafpad /etc/lightdm/lightdm.conf 行xserver-command=X -s o -dpms
 
 samba文件共享
-$ sudo leafpad /etc/samba/smb.conf  [homes]段
+sudo leafpad /etc/samba/smb.conf  [homes]段
 browseable = yes
 
 read only = no
