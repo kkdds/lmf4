@@ -6,7 +6,7 @@ from time import sleep
 
 class OMXPlayer(object):
 
-    _LAUNCH_CMD = '/usr/bin/omxplayer --win 0,0,1366,708 -o hdmi %s'
+    _LAUNCH_CMD = '/usr/bin/omxplayer --win 0,0,1360,708 -o hdmi %s'
     _PAUSE_CMD = 'p'
     _TOGGLE_SUB_CMD = 's'
     _QUIT_CMD = 'q'
