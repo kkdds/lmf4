@@ -352,7 +352,7 @@ def setting(request):
     if po['m'] == 'up':
         try:
             f = requests.get('https://raw.githubusercontent.com/kkdds/lmf4/master/lmf7.py', timeout=30) 
-            with open("/home/pi/lmf4/lmf7.py", "wb") as code:
+            with open(softPath+"lmf7.py", "wb") as code:
                 code.write(f.content) 
             tbody= '{"p":"ok","ver":"'+ver+'"}'
         except:
@@ -360,6 +360,52 @@ def setting(request):
             print('times out')
 
     return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+
+
+import zipfile
+@asyncio.coroutine
+def sys_update(request):
+    global softPath
+    hhdd=[('Access-Control-Allow-Origin','*')]
+    posted = yield from request.post()
+    #print(posted)
+    tbody= '成功'
+    if posted['tp']=='core':
+        try:
+            upedfile=posted['cfile']
+            ufilename = upedfile.filename
+            ufilecont = upedfile.file
+            content = ufilecont.read()
+            with open(softPath+ufilename, 'wb') as f:
+                f.write(content)
+            
+        except:
+            tbody='失败'
+        #解压缩
+        fz = zipfile.ZipFile(softPath+"core.zip",'r')
+        for file in fz.namelist():
+            fz.extract(file,softPath)
+        fz.close()
+
+    elif posted['tp']=='vdo':
+        try:
+            if os.path.exists(softPath+"vdo/")==False:
+                os.makedirs(softPath+"vdo/")
+            upedfile=posted['vfile']
+            ufilename = upedfile.filename
+            ufilecont = upedfile.file
+            content = ufilecont.read()
+            with open(softPath+"vdo/"+ufilename,'wb') as f:
+                f.write(content)
+        except:
+            tbody='失败'
+    return web.Response(headers=hhdd ,body=tbody.encode('utf-8'),content_type='application/json')
+
+
+@aiohttp_jinja2.template('upgrade.html')
+def upgrade(request):
+    #使用aiohttp_jinja2  methed 2
+    return {'html': 'upgrade'}
 
 
 import serial
@@ -458,10 +504,11 @@ def init(loop):
     global softPath,ver
     app = web.Application(loop=loop)
     #使用aiohttp_jinja2
-    aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'templates'))
+    aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'tpl'))
     app.router.add_route('POST', '/sta', return_sta)
     app.router.add_route('POST', '/setting', setting)
-    app.router.add_route('*', '/video', video)
+    app.router.add_route('*', '/sys_update', sys_update)
+    app.router.add_route('*', '/upgrade', upgrade)
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
     print(' v4 started at http://9001... '+ver)
     Chromium('/home/pi/lmf4/tpl/hdmi.html')

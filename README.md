@@ -26,17 +26,12 @@ sudo smbpasswd -a pi 输入两次密码，重启
 sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 
 设定有线固定IP，设置中文，设置时区，设置背景,关闭设置里接口，开启1-wire
-
 可以直接在图形界面设置固定IP
 
-设定有线即可
-sudo leafpad /etc/network/interfaces
 
-iface eth0 inet static
+# 在线升级 
+浏览器输入地址 192.168.1.105:9001,上传core核心和mp4文件
 
-address 192.168.1.105
-netmask 255.255.255.0
-gateway 192.168.1.1
 
 # 备用
 HDMI输出声音
