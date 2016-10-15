@@ -512,9 +512,9 @@ def init(loop):
     app.router.add_route('*', '/upgrade', upgrade)
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
     print(' v4 started at http://9001... '+ver)
-    Chromium('/home/pi/lmf4/tpl/hdmi.html')
+    Chromium(softPath+'tpl/hdmi.html')
     time.sleep(8)
-    OMXPlayer('/home/pi/lmf4/vdo/open.mp4')
+    OMXPlayer(softPath+'vdo/open.mp4')
     return srv
 
 loop = asyncio.get_event_loop()
