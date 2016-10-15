@@ -507,6 +507,7 @@ def init(loop):
     aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader(softPath+'tpl'))
     app.router.add_route('POST', '/sta', return_sta)
     app.router.add_route('POST', '/setting', setting)
+    app.router.add_route('POST', '/video', video)
     app.router.add_route('*', '/sys_update', sys_update)
     app.router.add_route('*', '/upgrade', upgrade)
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
