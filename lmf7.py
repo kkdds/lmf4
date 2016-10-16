@@ -106,7 +106,7 @@ omx=object
 def video(request):
     global omx
     global stapwd,setpwd,softPath
-
+    hhdd=[('Access-Control-Allow-Origin','*')]
     po = yield from request.post()
     if 1:#po['p'] == stapwd:
         if po['m'] == 'play':
@@ -123,7 +123,7 @@ def video(request):
         tbody= '{"p":"error"}'
         
     print(tbody)
-    return web.Response(headers='' ,body=tbody.encode('utf-8'))
+    return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
 @asyncio.coroutine
 def return_sta(request):
