@@ -261,24 +261,24 @@ def tt2():
     t = threading.Timer(shell_t2, tt3)
     p.ChangeDutyCycle(100)
     t.start()
-    #print('tt2 '+str(ttim-time.time()))
+    print('tt2 '+str(ttim-time.time()))
 
 def tt3():
     global t,shell_ud_t3_set,shell_up_down
-    t = threading.Timer(shell_ud_t3_set/1000, ttfin)
+    t = threading.Timer(shell_ud_t3_set/1000, tt4)
     if shell_up_down==0:
         p.ChangeDutyCycle(20)
     else:
         p.ChangeDutyCycle(20)
     t.start()
-    #print('tt3 '+str(ttim-time.time()))
+    print('tt3 '+str(ttim-time.time()))
 
 def tt4():
     global t
-    t = threading.Timer(3, ttfin)
-    t.start()
+    t = threading.Timer(6, ttfin)
     p.ChangeDutyCycle(4)
-    #print('tt4 '+str(ttim-time.time()))
+    t.start()
+    print('tt4 '+str(ttim-time.time()))
 
 def ttfin():
     global ttim,shell_up_down,sta_shell
@@ -450,10 +450,10 @@ def get_temp():
                 tempeture_1=0
                 tempeture_1=0
 
-        #print(tempeture_1)            
+        #print(tempeture_1)
         #print(tempeture_2)
         ser.close()
-        yield from asyncio.sleep(0.8)    
+        yield from asyncio.sleep(0.8)
 
 
 @asyncio.coroutine
