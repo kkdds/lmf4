@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161014'
+ver='20161019'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -114,7 +114,10 @@ def video(request):
             omx = OMXPlayer(softPath+'vdo/'+po['d']+'.mp4')
             tbody= '{"a":"video","b":"play"}'
         elif po['m'] == 'stop':
-            omx.stop()
+            try:
+                omx.stop()
+            except:
+                tbody= '{"p":"not_start"}'
             tbody= '{"a":"video","b":"stop"}'
         elif po['m'] == 'pause':
             omx.toggle_pause()
