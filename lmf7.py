@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161019'
+ver='20161024'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
