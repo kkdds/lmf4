@@ -410,16 +410,16 @@ def upgrade(request):
     #使用aiohttp_jinja2  methed 2
     return {'html': 'upgrade'}
 
-
 import serial
+temp_mode=0
 tempeture_1=0
 tempeture_2=0
 @asyncio.coroutine
 def get_temp():
-    global tempeture_1
-    global tempeture_2
+    global tempeture_1,tempeture_2
+    global temp_mode
     while True:
-        if 0:
+        if temp_mode==0:
             # 打开串口 发送 获得接收缓冲区字符
             ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
             ser.write(b'\x02\x03\x10\x00\x00\x04\x40\xFA')
@@ -430,6 +430,7 @@ def get_temp():
             else:
                 #print(recv)
                 tempeture_1=0
+                temp_mode=1
             ser.close()
             yield from asyncio.sleep(0.5)
 
@@ -442,6 +443,7 @@ def get_temp():
             else:
                 #print(recv)
                 tempeture_2=0
+                temp_mode=1
             ser.close()
             yield from asyncio.sleep(0.5)
 
