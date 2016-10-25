@@ -456,7 +456,7 @@ def get_temp():
                 tempeture_1=0
                 tempeture_1=0
             ser.close()
-            yield from asyncio.sleep(0.8)
+            yield from asyncio.sleep(0.7)
         #print(tempeture_1)
         #print(tempeture_2)
 
