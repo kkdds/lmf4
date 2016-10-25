@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161024'
+ver='20161025'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -442,6 +442,8 @@ def get_temp():
         else:
             #print(recv)
             tempeture_2=0
+        ser.close()
+        yield from asyncio.sleep(0.5)
 
         if (tempeture_1 + tempeture_2)==0:
             ser.write(b'\x01\x03\x00\x00\x00\x04\x44\x09')
@@ -450,15 +452,13 @@ def get_temp():
             if recv and recv[2]==8:
                 tempeture_1=(recv[3]*255+recv[4])/10
                 tempeture_2=(recv[5]*255+recv[6])/10
-                #print(tempeture_1)
             else:
                 tempeture_1=0
                 tempeture_1=0
-
-        #print(tempeture_1)
-        #print(tempeture_2)
         ser.close()
         yield from asyncio.sleep(0.8)
+        #print(tempeture_1)
+        #print(tempeture_2)
 
 
 @asyncio.coroutine
