@@ -446,6 +446,7 @@ def get_temp():
         yield from asyncio.sleep(0.5)
 
         if (tempeture_1 + tempeture_2)==0:
+            ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
             ser.write(b'\x01\x03\x00\x00\x00\x04\x44\x09')
             recv = ser.read(7)
             #print(recv)
@@ -455,8 +456,8 @@ def get_temp():
             else:
                 tempeture_1=0
                 tempeture_1=0
-        ser.close()
-        yield from asyncio.sleep(0.8)
+            ser.close()
+            yield from asyncio.sleep(0.8)
         #print(tempeture_1)
         #print(tempeture_2)
 
