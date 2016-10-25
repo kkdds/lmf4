@@ -410,15 +410,16 @@ def upgrade(request):
     #使用aiohttp_jinja2  methed 2
     return {'html': 'upgrade'}
 
-
 import serial
+temp_mode=0
 tempeture_1=0
 tempeture_2=0
 @asyncio.coroutine
 def get_temp():
-    global tempeture_1
-    global tempeture_2
+    global tempeture_1,tempeture_2
+    global temp_mode
     while True:
+<<<<<<< HEAD
         # 打开串口 发送 获得接收缓冲区字符
         ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
         ser.write(b'\x02\x03\x10\x00\x00\x04\x40\xFA')
@@ -443,6 +444,35 @@ def get_temp():
             tempeture_2=0
         ser.close()
         yield from asyncio.sleep(0.5)
+=======
+        if temp_mode==0:
+            # 打开串口 发送 获得接收缓冲区字符
+            ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
+            ser.write(b'\x02\x03\x10\x00\x00\x04\x40\xFA')
+            recv = ser.read(7)
+            #print(recv)
+            if recv and recv[2]==8:
+                tempeture_1=(recv[3]*255+recv[4])/10
+            else:
+                #print(recv)
+                tempeture_1=0
+                temp_mode=1
+            ser.close()
+            yield from asyncio.sleep(0.5)
+
+            ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
+            ser.write(b'\x03\x03\x10\x00\x00\x04\x41\x2B')
+            recv = ser.read(7)
+            #print(recv)
+            if recv and recv[2]==8:
+                tempeture_2=(recv[3]*255+recv[4])/10
+            else:
+                #print(recv)
+                tempeture_2=0
+                temp_mode=1
+            ser.close()
+            yield from asyncio.sleep(0.5)
+>>>>>>> 97ab3659ede671267dd5605e8a59cc59afb5cec0
 
         if(tempeture_1 + tempeture_2)==0:
             ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
