@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161025'
+ver='20161026'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -418,6 +418,8 @@ tempeture_2=0
 def get_temp():
     global tempeture_1
     global tempeture_2
+    tt1=0
+    tt2=0
     while True:
         # 打开串口 发送 获得接收缓冲区字符
         ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
@@ -425,10 +427,10 @@ def get_temp():
         recv = ser.read(7)
         #print(recv)
         if recv and recv[2]==8:
-            tempeture_1=(recv[3]*255+recv[4])/10
+            tt1=(recv[3]*255+recv[4])/10
         else:
             #print(recv)
-            tempeture_1=0
+            tt1=0
         ser.close()
         yield from asyncio.sleep(0.5)
 
@@ -437,26 +439,28 @@ def get_temp():
         recv = ser.read(7)
         #print(recv)
         if recv and recv[2]==8:
-            tempeture_2=(recv[3]*255+recv[4])/10
+            tt2=(recv[3]*255+recv[4])/10
         else:
             #print(recv)
-            tempeture_2=0
+            tt2=0
         ser.close()
         yield from asyncio.sleep(0.5)
 
-        if(tempeture_1 + tempeture_2)==0:
+        if(tt1 + tt2)==0:
             ser = serial.Serial("/dev/ttyUSB0",parity=serial.PARITY_ODD,timeout=1)
             ser.write(b'\x01\x03\x00\x00\x00\x04\x44\x09')
             recv = ser.read(7)
             #print(recv)
             if recv and recv[2]==8:
-                tempeture_1=(recv[3]*255+recv[4])/10
-                tempeture_2=(recv[5]*255+recv[6])/10
+                tt1=(recv[3]*255+recv[4])/10
+                tt2=(recv[5]*255+recv[6])/10
             else:
-                tempeture_1=0
-                tempeture_1=0
+                tt1=0
+                tt2=0
             ser.close()
             yield from asyncio.sleep(0.7)
+        tempeture_1=tt1
+        tempeture_2=tt2
         #print(tempeture_1)
         #print(tempeture_2)
 
