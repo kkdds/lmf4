@@ -19,9 +19,9 @@ stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
 
+kconfig=configparser.ConfigParser()
+kconfig.read(softPath+"setting.ini")
 try:
-    kconfig=configparser.ConfigParser()
-    kconfig.read(softPath+"setting.ini")
     shell_ud_t1_set=kconfig.getint("yp","shell_ud_t1_set")
     shell_ud_t2u_set=kconfig.getint("yp","shell_ud_t2u_set")
     shell_ud_t2d_set=kconfig.getint("yp","shell_ud_t2d_set")
@@ -31,8 +31,6 @@ try:
     stapwd = kconfig.get("yp","stapwd")
     mute = kconfig.get("yp","mute")
 except:
-    kconfig=configparser.ConfigParser()
-    kconfig.read(softPath+"setting.ini")
     shell_ud_t1_set=2000
     shell_ud_t2u_set=9000
     shell_ud_t2d_set=7000
@@ -41,6 +39,16 @@ except:
     shell_sdd = 16
     stapwd = 'abc'
     mute = '1'
+    kconfig.add_section('yp')
+    kconfig.set("yp","shell_ud_t1_set",str(shell_ud_t1_set))
+    kconfig.set("yp","shell_ud_t2u_set",str(shell_ud_t2u_set))
+    kconfig.set("yp","shell_ud_t2d_set",str(shell_ud_t2d_set))
+    kconfig.set("yp","shell_ud_t3_set",str(shell_ud_t3_set))
+    kconfig.set("yp","shell_sdu",str(shell_sdu))
+    kconfig.set("yp","shell_sdd",str(shell_sdd))
+    kconfig.set("yp","mute",mute)
+    kconfig.set("yp","stapwd",stapwd)
+    kconfig.write(open(softPath+"setting.ini","w"))
 
 seled_cai=[]
 
