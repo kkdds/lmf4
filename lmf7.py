@@ -14,20 +14,33 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161026'
+ver='20161105'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
 
-kconfig=configparser.ConfigParser()
-kconfig.read(softPath+"setting.ini")
-shell_ud_t1_set=kconfig.getint("yp","shell_ud_t1_set")
-shell_ud_t2u_set=kconfig.getint("yp","shell_ud_t2u_set")
-shell_ud_t2d_set=kconfig.getint("yp","shell_ud_t2d_set")
-shell_ud_t3_set=kconfig.getint("yp","shell_ud_t3_set")
-shell_sdu = kconfig.getint("yp","shell_sdu")
-shell_sdd = kconfig.getint("yp","shell_sdd")
-stapwd = kconfig.get("yp","stapwd")
+try:
+    kconfig=configparser.ConfigParser()
+    kconfig.read(softPath+"setting.ini")
+    shell_ud_t1_set=kconfig.getint("yp","shell_ud_t1_set")
+    shell_ud_t2u_set=kconfig.getint("yp","shell_ud_t2u_set")
+    shell_ud_t2d_set=kconfig.getint("yp","shell_ud_t2d_set")
+    shell_ud_t3_set=kconfig.getint("yp","shell_ud_t3_set")
+    shell_sdu = kconfig.getint("yp","shell_sdu")
+    shell_sdd = kconfig.getint("yp","shell_sdd")
+    stapwd = kconfig.get("yp","stapwd")
+    mute = kconfig.get("yp","mute")
+except:
+    kconfig=configparser.ConfigParser()
+    kconfig.read(softPath+"setting.ini")
+    shell_ud_t1_set=2000
+    shell_ud_t2u_set=9000
+    shell_ud_t2d_set=7000
+    shell_ud_t3_set=5000
+    shell_sdu = 17
+    shell_sdd = 16
+    stapwd = 'abc'
+    mute = '1'
 
 seled_cai=[]
 
@@ -105,7 +118,7 @@ omx=object
 @asyncio.coroutine
 def video(request):
     global omx
-    global stapwd,setpwd,softPath
+    global stapwd,setpwd,softPath,mute
     hhdd=[('Access-Control-Allow-Origin','*')]
     po = yield from request.post()
     if 1:#po['p'] == stapwd:
@@ -118,7 +131,7 @@ def video(request):
                 omx.stop()
             except:
                 tbody= '{"p":"not_start"}'
-            tbody= '{"a":"video","b":"stop"}'
+            tbody= '{"a":"video","b":"stop","mute":"'+mute+'"}'
         elif po['m'] == 'pause':
             omx.toggle_pause()
             tbody= '{"a":"video","b":"pause"}'
@@ -293,7 +306,7 @@ def ttfin():
 @asyncio.coroutine
 def setting(request):
     global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
-    global shell_sdu,shell_sdd,ver
+    global shell_sdu,shell_sdd,ver,mute
     global stapwd,setpwd,softPath,seled_cai
     hhdd=[('Access-Control-Allow-Origin','*')]
     tbody= '{"p":"error"}'
@@ -312,6 +325,7 @@ def setting(request):
         tbody+= '"t3":"'+str(shell_ud_t3_set)+'",'
         tbody+= '"sdu":"'+str(shell_sdu)+'",'
         tbody+= '"sdd":"'+str(shell_sdd)+'",'
+        tbody+= '"mute":"'+mute+'",'
         tbody+= '"stapwd":"'+str(stapwd)+'"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
@@ -323,12 +337,14 @@ def setting(request):
         shell_sdu=po['sdu']
         shell_sdd=po['sdd']
         stapwd=po['stapwd']
+        mute=po['mute']
         kconfig.set("yp","shell_ud_t1_set",po['t1'])
         kconfig.set("yp","shell_ud_t2u_set",po['t2u'])
         kconfig.set("yp","shell_ud_t2d_set",po['t2d'])
         kconfig.set("yp","shell_ud_t3_set",po['t3'])
         kconfig.set("yp","shell_sdu",str(shell_sdu))
         kconfig.set("yp","shell_sdd",str(shell_sdd))
+        kconfig.set("yp","mute",mute)
         kconfig.set("yp","stapwd",stapwd)
         kconfig.write(open(softPath+"setting.ini","w"))
         tbody= '{"p":"ok","w":"ok"}'
