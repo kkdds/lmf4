@@ -46,8 +46,8 @@ except:
     kconfig.set("yp","shell_ud_t3_set",str(shell_ud_t3_set))
     kconfig.set("yp","shell_sdu",str(shell_sdu))
     kconfig.set("yp","shell_sdd",str(shell_sdd))
-    kconfig.set("yp","mute",mute)
     kconfig.set("yp","stapwd",stapwd)
+    kconfig.set("yp","mute",mute)
     kconfig.write(open(softPath+"setting.ini","w"))
 
 seled_cai=[]
