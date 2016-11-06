@@ -25,9 +25,10 @@ sudo smbpasswd -a pi 输入两次密码，重启
 开机运行Python脚本
 sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 
-设定有线固定IP，设置中文，设置时区，设置背景,关闭设置里接口，开启1-wire
+设定有线固定IP，设置中文，设置时区，设置背景,关闭设置里接口，开启IIC
 可以直接在图形界面设置固定IP
 
+安装chrome
 
 # 在线升级 
 浏览器输入地址 192.168.1.105:9001,上传core核心和mp4文件
