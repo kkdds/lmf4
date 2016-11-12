@@ -30,7 +30,7 @@ class Chromium(object):
             index = self._process.expect([pexpect.TIMEOUT,
                                             pexpect.EOF])
             if index == 1: 
-                print('KEY stop EOF '+str(index))
+                print('chrome KEY stop EOF '+str(index))
                 #self.stop()
                 break
         self._VOF=0
