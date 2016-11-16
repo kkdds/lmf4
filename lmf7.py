@@ -180,6 +180,11 @@ def return_sta(request):
             return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
                 
         elif po['m'] == 'gpioon':
+            if po['d']== 'hx':
+                GPIO.output(io_hx, 0)
+                tbody= '{"a":"hx","b":"on"}'
+            return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+
             delaytime=po['t']
             eTimer1=True
             eIntval1=int(time.time())+int(delaytime)
@@ -202,12 +207,7 @@ def return_sta(request):
                 GPIO.output(io_sk, 0)
                 #GPIO.output(io_hx, 0)
                 huixiqi=-1
-                tbody= '{"a":"sk+hx","b":"on"}'
-            elif po['d']== 'hx':
-                GPIO.output(io_hx, 0)
-                eTimer1=False
-                huixiqi=-1
-                tbody= '{"a":"hx","b":"on"}'
+                tbody= '{"a":"sk","b":"on"}'
             elif po['d']== 'ss':
                 GPIO.output(io_ss, 0)
                 tbody= '{"a":"ss","b":"on"}'
@@ -519,7 +519,7 @@ def loop_info():
             huixiqi-=1
         elif huixiqi==0:
             huixiqi=-1
-            #GPIO.output(io_hx, 1)
+            GPIO.output(io_hx, 1)
             print('huixiqi stop')
                    
         if eTimer1==True:
@@ -534,7 +534,7 @@ def loop_info():
                 sta_shell=2
                 sta_onoff=0
                 huixiqi=400
-                #GPIO.output(io_hx, 0)
+                GPIO.output(io_hx, 0)
                 print('huixiqi on')
                 
     return 1
