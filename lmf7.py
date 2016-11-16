@@ -200,9 +200,12 @@ def return_sta(request):
                 tbody= '{"a":"bw","b":"on"}'
             elif po['d']== 'sk':
                 GPIO.output(io_sk, 0)
-                GPIO.output(io_hx, 0)
+                #GPIO.output(io_hx, 0)
                 huixiqi=-1
                 tbody= '{"a":"sk+hx","b":"on"}'
+            elif po['d']== 'hx':
+                GPIO.output(io_hx, 0)
+                tbody= '{"a":"hx","b":"on"}'
             elif po['d']== 'ss':
                 GPIO.output(io_ss, 0)
                 tbody= '{"a":"ss","b":"on"}'
@@ -219,7 +222,7 @@ def return_sta(request):
                 GPIO.output(io_ss, 1)
                 eTimer1=False
                 huixiqi=400
-                GPIO.output(io_hx, 0)
+                #GPIO.output(io_hx, 0)
                 print('huixi on alloff')
                 tbody= '{"a":"all","b":"off"}'
             elif po['d']== 'zq':
@@ -231,6 +234,9 @@ def return_sta(request):
             elif po['d']== 'sk':
                 GPIO.output(io_sk, 1)
                 tbody= '{"a":"sk","b":"off"}'
+            elif po['d']== 'hx':
+                GPIO.output(io_hx, 1)
+                tbody= '{"a":"hx","b":"off"}'
             elif po['d']== 'ms':
                 GPIO.output(io_zq, 1)
                 GPIO.output(io_jr, 1)
@@ -506,12 +512,12 @@ def loop_info():
             GPIO.output(io_sk, 1)
             GPIO.output(io_hx, 1)
             GPIO.output(io_ss, 1)
-            
+
         if huixiqi>0:
             huixiqi-=1
         elif huixiqi==0:
             huixiqi=-1
-            GPIO.output(io_hx, 1)
+            #GPIO.output(io_hx, 1)
             print('huixiqi stop')
                    
         if eTimer1==True:
@@ -526,7 +532,7 @@ def loop_info():
                 sta_shell=2
                 sta_onoff=0
                 huixiqi=400
-                GPIO.output(io_hx, 0)
+                #GPIO.output(io_hx, 0)
                 print('huixiqi on')
                 
     return 1
