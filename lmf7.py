@@ -14,41 +14,71 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161105'
+ver='20161117'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
 
 kconfig=configparser.ConfigParser()
-kconfig.read(softPath+"setting.ini")
+if os.path.exists(softPath+"setting.ini"):
+    kconfig.read(softPath+"setting.ini")
+else: 
+    f = open(softPath+"setting.ini", 'w')
+    f.close()
+    kconfig.read(softPath+"setting.ini")
+    kconfig.add_section('yp')
+    kconfig.write(open(softPath+"setting.ini","w"))
+
 try:
     shell_ud_t1_set=kconfig.getint("yp","shell_ud_t1_set")
+except:
+    kconfig.add_section('yp')
+    shell_ud_t1_set=2000
+    kconfig.set("yp","shell_ud_t1_set",str(shell_ud_t1_set))
+
+try:
     shell_ud_t2u_set=kconfig.getint("yp","shell_ud_t2u_set")
+except:
+    shell_ud_t2u_set=9000
+    kconfig.set("yp","shell_ud_t2u_set",str(shell_ud_t2u_set))
+
+try:
     shell_ud_t2d_set=kconfig.getint("yp","shell_ud_t2d_set")
+except:
+    shell_ud_t2d_set=7000
+    kconfig.set("yp","shell_ud_t2d_set",str(shell_ud_t2d_set))
+
+try:
     shell_ud_t3_set=kconfig.getint("yp","shell_ud_t3_set")
+except:
+    shell_ud_t3_set=5000
+    kconfig.set("yp","shell_ud_t3_set",str(shell_ud_t3_set))
+
+try:
     shell_sdu = kconfig.getint("yp","shell_sdu")
+except:
+    shell_sdu = 17
+    kconfig.set("yp","shell_sdu",str(shell_sdu))
+
+try:
     shell_sdd = kconfig.getint("yp","shell_sdd")
+except:
+    shell_sdd = 16
+    kconfig.set("yp","shell_sdd",str(shell_sdd))
+
+try:
     stapwd = kconfig.get("yp","stapwd")
+except:
+    stapwd = 'abc'
+    kconfig.set("yp","stapwd",stapwd)
+
+try:
     mute = kconfig.get("yp","mute")
 except:
-    shell_ud_t1_set=2000
-    shell_ud_t2u_set=9000
-    shell_ud_t2d_set=7000
-    shell_ud_t3_set=5000
-    shell_sdu = 17
-    shell_sdd = 16
-    stapwd = 'abc'
     mute = '1'
-    kconfig.add_section('yp')
-    kconfig.set("yp","shell_ud_t1_set",str(shell_ud_t1_set))
-    kconfig.set("yp","shell_ud_t2u_set",str(shell_ud_t2u_set))
-    kconfig.set("yp","shell_ud_t2d_set",str(shell_ud_t2d_set))
-    kconfig.set("yp","shell_ud_t3_set",str(shell_ud_t3_set))
-    kconfig.set("yp","shell_sdu",str(shell_sdu))
-    kconfig.set("yp","shell_sdd",str(shell_sdd))
-    kconfig.set("yp","stapwd",stapwd)
     kconfig.set("yp","mute",mute)
-    kconfig.write(open(softPath+"setting.ini","w"))
+
+kconfig.write(open(softPath+"setting.ini","w"))
 
 seled_cai=[]
 
