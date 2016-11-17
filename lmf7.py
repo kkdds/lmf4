@@ -213,7 +213,8 @@ def return_sta(request):
             if po['d']== 'hx':
                 GPIO.output(io_hx, 0)
                 tbody= '{"a":"hx","b":"on"}'
-            return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+                print(tbody)
+                return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
             delaytime=po['t']
             eTimer1=True
