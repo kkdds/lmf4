@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161117'
+ver='20161126'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -350,11 +350,16 @@ def ttfin():
     print('shell run end '+str(ttim-time.time()))
 
 
+cut_name=''
+cai_name=''
+wat_name=''
+
 @asyncio.coroutine
 def setting(request):
     global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
     global shell_sdu,shell_sdd,ver,mute
     global stapwd,setpwd,softPath,seled_cai
+    global cut_name,cai_name,wat_name
     hhdd=[('Access-Control-Allow-Origin','*')]
     tbody= '{"p":"error"}'
 
@@ -363,7 +368,7 @@ def setting(request):
         tbody= '{"p":"ok"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
-    if po['m'] == 'get' and po['p'] == setpwd:
+    if po['m'] == 'get':
         tbody = '{"p":"ok",'
         tbody+= '"ver":"'+ver+'",'
         tbody+= '"t1":"'+str(shell_ud_t1_set)+'",'
@@ -373,6 +378,9 @@ def setting(request):
         tbody+= '"sdu":"'+str(shell_sdu)+'",'
         tbody+= '"sdd":"'+str(shell_sdd)+'",'
         tbody+= '"mute":"'+mute+'",'
+        tbody+= '"cut_name":"'+cut_name+'",'
+        tbody+= '"cai_name":"'+cai_name+'",'
+        tbody+= '"wat_name":"'+wat_name+'",'
         tbody+= '"stapwd":"'+str(stapwd)+'"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
@@ -394,6 +402,9 @@ def setting(request):
         kconfig.set("yp","mute",mute)
         kconfig.set("yp","stapwd",stapwd)
         kconfig.write(open(softPath+"setting.ini","w"))
+        cut_name=po['cut_name']
+        cai_name=po['cai_name']
+        wat_name=po['wat_name']
         tbody= '{"p":"ok","w":"ok"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
