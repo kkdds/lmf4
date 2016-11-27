@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161126'
+ver='20161127'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -408,6 +408,14 @@ def setting(request):
         tbody= '{"p":"ok","w":"ok"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
+    if po['m'] == 'pj':
+        PJ=open(softPath+"pj.txt", "a")
+        cont=time.asctime()+' '+po['wat_name']+' 星级评价:'+po['starts']+"\n"
+        PJ.writelines(cont) 
+        PJ.close() 
+        tbody = '{"p":"ok"}'
+        return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+
     if po['m'] == 'addcai':
         scai=po['c']
         if po['s'] == 'true':
@@ -483,6 +491,20 @@ def sys_update(request):
 def upgrade(request):
     #使用aiohttp_jinja2  methed 2
     return {'html': 'upgrade'}
+
+
+@asyncio.coroutine
+def pj(request):
+    global softPath
+    hhdd=[('Access-Control-Allow-Origin','*')]
+    tbody=''
+    try:
+        PJ=open(softPath+"pj.txt", "r")
+        tbody=PJ.read() 
+        PJ.close()
+    except:
+        tbody='没有记录'
+    return web.Response(headers=hhdd,content_type='text/plain',charset='utf-8',body=tbody.encode('utf-8'))
 
 
 import serial
@@ -593,11 +615,12 @@ def init(loop):
     app.router.add_route('POST', '/video', video)
     app.router.add_route('*', '/sys_update', sys_update)
     app.router.add_route('*', '/upgrade', upgrade)
+    app.router.add_route('*', '/pj', pj)
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
     print(' v4 started at http://9001... '+ver)
-    Chromium(softPath+'tpl/hdmi.html')
-    time.sleep(8)
-    OMXPlayer(softPath+'vdo/open.mp4')
+    #Chromium(softPath+'tpl/hdmi.html')
+    #time.sleep(8)
+    #OMXPlayer(softPath+'vdo/open.mp4')
     return srv
 
 loop = asyncio.get_event_loop()
