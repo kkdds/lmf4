@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161127'
+ver='20161128'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -402,10 +402,20 @@ def setting(request):
         kconfig.set("yp","mute",mute)
         kconfig.set("yp","stapwd",stapwd)
         kconfig.write(open(softPath+"setting.ini","w"))
-        cut_name=po['cut_name']
-        cai_name=po['cai_name']
-        wat_name=po['wat_name']
         tbody= '{"p":"ok","w":"ok"}'
+        return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+
+    if po['m'] == 'w_cut_name':
+        cut_name=po['cut_name']
+        tbody = '{"cut_name":"'+cut_name+'"}'
+        return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+    if po['m'] == 'w_cai_name':
+        cai_name=po['cai_name']
+        tbody = '{"cai_name":"'+cai_name+'"}'
+        return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+    if po['m'] == 'w_wat_name':
+        wat_name=po['wat_name']
+        tbody = '{"wat_name":"'+wat_name+'"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
     if po['m'] == 'pj':
