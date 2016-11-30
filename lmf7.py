@@ -14,7 +14,7 @@ ttim=0
 from chromium import Chromium
 from pyomxplayer import OMXPlayer
 
-ver='20161128'
+ver='20161130'
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf4/'
@@ -81,6 +81,7 @@ except:
 kconfig.write(open(softPath+"setting.ini","w"))
 
 seled_cai=[]
+seled_cai_cn=[]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -358,8 +359,8 @@ wat_name=''
 def setting(request):
     global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
     global shell_sdu,shell_sdd,ver,mute
-    global stapwd,setpwd,softPath,seled_cai
-    global cut_name,cai_name,wat_name
+    global stapwd,setpwd,softPath,seled_cai,seled_cai_cn
+    global cut_name,cai_name,wat_name,seled_cai_cn
     hhdd=[('Access-Control-Allow-Origin','*')]
     tbody= '{"p":"error"}'
 
@@ -369,6 +370,11 @@ def setting(request):
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
     if po['m'] == 'get':
+        cai_name= ''
+        for i in seled_cai_cn:
+            cai_name = cai_name+i+';'
+        cai_name= str(cai_name)
+
         tbody = '{"p":"ok",'
         tbody+= '"ver":"'+ver+'",'
         tbody+= '"t1":"'+str(shell_ud_t1_set)+'",'
@@ -379,7 +385,7 @@ def setting(request):
         tbody+= '"sdd":"'+str(shell_sdd)+'",'
         tbody+= '"mute":"'+mute+'",'
         tbody+= '"cut_name":"'+cut_name+'",'
-        tbody+= '"cai_name":"'+cai_name+'",'
+        tbody+= '"seled_cai_cn":"'+cai_name+'",'
         tbody+= '"wat_name":"'+wat_name+'",'
         tbody+= '"stapwd":"'+str(stapwd)+'"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
@@ -428,13 +434,14 @@ def setting(request):
 
     if po['m'] == 'addcai':
         scai=po['c']
+        scai_cn=po['cn']
         if po['s'] == 'true':
             seled_cai.remove(scai)
-            #print(seled_cai)
+            seled_cai_cn.remove(scai_cn)
             tbody= '{"p":"dec"}'
         else:
             seled_cai.append(scai)
-            #print(seled_cai)
+            seled_cai_cn.append(scai_cn)
             tbody= '{"p":"add"}'
 
     if po['m'] == 'get_added_cai':
