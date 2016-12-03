@@ -31,7 +31,7 @@ sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 安装chrome
 
 # 在线升级 
-浏览器输入地址 192.168.1.105:9001,上传core核心和mp4文件
+浏览器输入地址 192.168.1.105:9001/upgrade,上传core核心和mp4文件
 
 
 # 备用
