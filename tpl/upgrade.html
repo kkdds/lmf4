@@ -16,7 +16,7 @@ function load()
 		//alert( win.body.innerHTML );
 		try{
 		document.getElementById('c_ubtn').value=win.body.getElementsByTagName("pre")[0].innerHTML;
-		document.getElementById('v_ubtn').value=win.body.getElementsByTagName("pre")[0].innerHTML;		
+		document.getElementById('v_ubtn').value=win.body.getElementsByTagName("pre")[0].innerHTML;
 		}catch(e){
 		document.getElementById('c_ubtn').value='上传失败';
 		document.getElementById('v_ubtn').value='上传失败';
@@ -36,7 +36,7 @@ function load()
     <div class="set_div">
     <form id="formc" action="sys_update" method="post" accept-charset="utf-8"
         enctype="multipart/form-data" target="hidden_frame">
-      核心文件(选择lmf文件夹下 core.zip 文件)： <br/> 
+      核心文件(选择lmf文件夹下 core.zip 文件)： <br/>
       <!--<label class="abtn bbtn " for="cfile">上传文件</label>-->
       <input name="cfile" id="cfile" type="file" value=""/>
       <input name="tp" type="hidden" value="core" />
@@ -46,7 +46,7 @@ function load()
     <div class="set_div">
     <form id="formv" action="sys_update" method="post" accept-charset="utf-8"
         enctype="multipart/form-data" target="hidden_frame">
-      视频文件(选择 mp4 文件上传)：<br/> 
+      视频文件(选择 mp4 文件上传)：<br/>
       <input name="vfile" id="vfile" type="file" value="" />
       <!--<input type="button" class="abtn bbtn " value="上传" style="font-size:36px;" onClick="upgrade_vdo(this)">-->
       <input name="tp" type="hidden" value="vdo" />
